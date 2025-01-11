@@ -3,20 +3,180 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 26, 35, 126;
+  --glow-color: #ff5722;
+  --grid-size: 30px;
+  --grid-color: rgba(255, 87, 34, 0.1);
+  --glow-blue: #4a90e2;
+  --glow-purple: #9c27b0;
+  --glow-green: #4caf50;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgb(var(--background-end-rgb))
-  )
-  rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(to bottom right, rgba(255, 87, 34, 0.1), transparent),
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 100% 100%, var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size);
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  50% {
+    transform: translateY(0) translateX(10px);
+  }
+  75% {
+    transform: translateY(10px) translateX(5px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.floating-particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: var(--glow-color);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.3;
+  filter: blur(1px);
+  animation: float 8s infinite ease-in-out;
+}
+
+.floating-particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+.floating-particle:nth-child(2) { top: 60%; left: 20%; animation-delay: -1s; }
+.floating-particle:nth-child(3) { top: 40%; left: 30%; animation-delay: -2s; }
+.floating-particle:nth-child(4) { top: 80%; left: 40%; animation-delay: -3s; }
+.floating-particle:nth-child(5) { top: 30%; left: 50%; animation-delay: -4s; }
+.floating-particle:nth-child(6) { top: 70%; left: 60%; animation-delay: -5s; }
+.floating-particle:nth-child(7) { top: 50%; left: 70%; animation-delay: -6s; }
+.floating-particle:nth-child(8) { top: 90%; left: 80%; animation-delay: -7s; }
+
+.glow-text {
+  color: #ffffff;
+  text-shadow: 
+    0 0 10px var(--glow-color),
+    0 0 20px var(--glow-color),
+    0 0 30px var(--glow-color),
+    0 0 40px var(--glow-color);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.glow-text-blue {
+  color: #ffffff;
+  text-shadow: 
+    0 0 10px var(--glow-blue),
+    0 0 20px var(--glow-blue),
+    0 0 30px var(--glow-blue);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.glow-text-purple {
+  color: #ffffff;
+  text-shadow: 
+    0 0 10px var(--glow-purple),
+    0 0 20px var(--glow-purple),
+    0 0 30px var(--glow-purple);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.glow-text-green {
+  color: #ffffff;
+  text-shadow: 
+    0 0 10px var(--glow-green),
+    0 0 20px var(--glow-green),
+    0 0 30px var(--glow-green);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.bubble-gradient-1 {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(74, 144, 226, 0.1) 100%);
+  animation: pulse 3s infinite ease-in-out;
+}
+
+.bubble-gradient-2 {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(156, 39, 176, 0.1) 100%);
+  animation: pulse 4s infinite ease-in-out;
+}
+
+.bubble-gradient-3 {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(76, 175, 80, 0.1) 100%);
+  animation: pulse 5s infinite ease-in-out;
+}
+
+.bubble-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 8s infinite linear;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 
+      0 0 10px var(--glow-color),
+      0 0 20px var(--glow-color),
+      0 0 30px var(--glow-color);
+  }
+  to {
+    text-shadow: 
+      0 0 20px var(--glow-color),
+      0 0 30px var(--glow-color),
+      0 0 40px var(--glow-color),
+      0 0 50px var(--glow-color);
+  }
+}
+
+.mining-text {
+  letter-spacing: 0.5em;
+  opacity: 0.7;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 @layer utilities {

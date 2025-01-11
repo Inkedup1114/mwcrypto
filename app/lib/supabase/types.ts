@@ -99,6 +99,41 @@ export interface Database {
           cancelled_at?: string | null
         }
       }
+      bookings: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          time: string
+          plan_title: string
+          status: 'pending' | 'confirmed' | 'cancelled'
+          created_at: string
+          payment_id: string | null
+          notes: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date: string
+          time: string
+          plan_title: string
+          status?: 'pending' | 'confirmed' | 'cancelled'
+          created_at?: string
+          payment_id?: string | null
+          notes?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          time?: string
+          plan_title?: string
+          status?: 'pending' | 'confirmed' | 'cancelled'
+          created_at?: string
+          payment_id?: string | null
+          notes?: string | null
+        }
+      }
     }
     Views: {
       [_ in never]: never
