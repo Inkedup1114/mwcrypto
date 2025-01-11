@@ -1,14 +1,14 @@
-import React from 'react'
+import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Navigation from '@/app/components/navigation'
-import './globals.css'
+import Navigation from './components/navigation'
+import { AuthProvider } from './contexts/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'MSC',
-  description: 'MSC Website',
+  title: 'Learning Platform',
+  description: 'A modern platform for learning and development',
 }
 
 export default function RootLayout({
@@ -19,10 +19,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigation />
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <AuthProvider>
+          <div className="min-h-screen flex flex-col">
+            <Navigation />
+            <main className="flex-grow">
+              {children}
+            </main>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   )
