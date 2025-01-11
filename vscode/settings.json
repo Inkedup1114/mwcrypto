@@ -1,0 +1,62 @@
+{
+  "todo-tree.general.tags": [
+    "TODO",
+    "FIXME",
+    "NOTE",
+    "HACK",
+    "BUG"
+  ],
+  "todo-tree.highlights.defaultHighlight": {
+    "foreground": "white",
+    "background": "#ffb100",
+    "icon": "check",
+    "type": "text",
+    "opacity": 50,
+    "iconColour": "#ffb100"
+  },
+  "todo-tree.highlights.customHighlight": {
+    "TODO": {
+      "background": "#3b82f6",
+      "iconColour": "#3b82f6"
+    },
+    "FIXME": {
+      "background": "#ef4444",
+      "icon": "alert",
+      "iconColour": "#ef4444"
+    },
+    "NOTE": {
+      "background": "#22c55e",
+      "icon": "info",
+      "iconColour": "#22c55e"
+    },
+    "HACK": {
+      "background": "#f97316",
+      "icon": "tools",
+      "iconColour": "#f97316"
+    },
+    "BUG": {
+      "background": "#dc2626",
+      "icon": "bug",
+      "iconColour": "#dc2626"
+    }
+  },
+  "todo-tree.general.statusBar": "total",
+  "todo-tree.tree.showCountsInTree": true,
+  "todo-tree.filtering.excludeGlobs": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.next/**",
+    "**/.git/**",
+    "**/package-lock.json",
+    "**/yarn.lock"
+  ],
+  "todo-tree.regex.regex": "((//|#|<!--|;|/\\*|^)\\s*($TAGS)|^\\s*- \\[ \\])",
+  "todo-tree.general.tagGroups": {
+    "FIXME": ["FIXME", "FIX", "FIXIT", "ISSUE"],
+    "TODO": ["TODO", "TODOS", "TASK"]
+  },
+  "todo-tree.tree.groupedByTag": true,
+  "todo-tree.tree.expanded": true,
+  "todo-tree.regex.regexCaseSensitive": false
+}
