@@ -1,22 +1,34 @@
 'use client'
 
-import BookingCalendar from './components/BookingCalendar'
-import { useState } from 'react'
-
 export default function Home() {
-  const [showCalendar, setShowCalendar] = useState(false)
 
   return (
     <main className="min-h-screen py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Title Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-white mb-6 leading-relaxed">
-            Master Cryptocurrency with Personal Guidance
+        <div className="text-center mb-16 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-yellow-500/20 blur-3xl -z-10 transform rotate-3"></div>
+          <h1 className="text-6xl md:text-7xl font-extrabold mb-8 leading-tight">
+            <span className="bg-gradient-to-r from-blue-400 to-yellow-400 text-transparent bg-clip-text animate-gradient">
+              Master Cryptocurrency
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-yellow-400 to-blue-400 text-transparent bg-clip-text animate-gradient-reverse">
+              with Personal Guidance
+            </span>
           </h1>
-          <p className="text-2xl text-gray-200 mb-12 leading-relaxed">
-            One-on-one sessions to help you understand and navigate the crypto world
+          <p className="text-2xl md:text-3xl text-gray-200 mb-12 leading-relaxed max-w-3xl mx-auto">
+            <span className="inline-block transform hover:scale-105 transition-transform duration-300">
+              One-on-one sessions to help you
+              <span className="text-yellow-400"> unlock the potential </span>
+              of the crypto world
+            </span>
           </p>
+          <div className="flex justify-center space-x-2 text-yellow-400 text-4xl animate-bounce">
+            <span>•</span>
+            <span className="animate-bounce-delay-1">•</span>
+            <span className="animate-bounce-delay-2">•</span>
+          </div>
         </div>
 
         {/* First Row of Information Sections */}
@@ -76,25 +88,29 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Book a Session Button */}
+        {/* Book Sessions Section */}
         <div className="text-center mb-16">
-          <button
-            onClick={() => setShowCalendar(true)}
-            className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg hover:from-orange-600 hover:to-yellow-600 transition-all duration-300 transform hover:scale-105"
-          >
-            BOOK A SESSION NOW
-          </button>
-        </div>
-
-        {/* Booking Calendar */}
-        {showCalendar && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-semibold text-center text-white mb-6">
-              Book Your Crypto Education Session
-            </h2>
-            <BookingCalendar selectedPlan="Crypto Education Session" />
+          <div className="mb-8 max-w-2xl mx-auto">
+            <h3 className="text-2xl text-white mb-4">Get Started with Both Sessions</h3>
+            <p className="text-gray-200 mb-6">
+              Book your complete crypto education package: 2 comprehensive 45-minute sessions for $100.
+              Schedule both sessions at times that work best for you.
+            </p>
+            <div className="text-yellow-400 mb-8">
+              <p className="text-lg">✓ Two 45-minute personal sessions</p>
+              <p className="text-lg">✓ Flexible scheduling options</p>
+              <p className="text-lg">✓ Money-back guarantee</p>
+            </div>
           </div>
-        )}
+          <a
+            href="https://buy.stripe.com/fZeaGX0tNfeqeIwfYY"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg hover:from-orange-600 hover:to-yellow-600 transition-all duration-300 transform hover:scale-105"
+          >
+            BOOK BOTH SESSIONS NOW - $100
+          </a>
+        </div>
 
         {/* Disclaimer */}
         <div className="mt-16 text-center text-sm text-gray-300 max-w-2xl mx-auto">
