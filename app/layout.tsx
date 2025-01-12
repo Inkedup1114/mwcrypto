@@ -1,7 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Navigation from './components/navigation'
 import SparkAnimation from './components/SparkAnimation'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -46,7 +45,6 @@ export default function RootLayout({
               </p>
             </div>
           </div>
-          <Navigation />
         </header>
 
         <div className="min-h-screen flex flex-col items-center justify-between pt-48">

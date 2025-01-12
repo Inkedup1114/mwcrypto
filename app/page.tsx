@@ -9,11 +9,11 @@ export default function Home() {
         <div className="text-center mb-16 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-yellow-500/20 blur-3xl -z-10 transform rotate-3"></div>
           <h1 className="text-6xl md:text-7xl font-extrabold mb-8 leading-tight relative z-10">
-            <span className="bg-gradient-to-r from-blue-400 to-yellow-400 text-transparent bg-clip-text animate-gradient inline-block transform hover:scale-105 transition-transform duration-300" style={{textShadow: '0 0 30px rgba(66, 153, 225, 0.5)'}}>
+            <span className="bg-gradient-to-r from-orange-400 to-yellow-400 text-transparent bg-clip-text animate-gradient inline-block transform hover:scale-105 transition-transform duration-300" style={{textShadow: '0 0 30px rgba(255, 140, 0, 0.8), 0 0 60px rgba(255, 140, 0, 0.6)'}}>
               Master Cryptocurrency
             </span>
             <br />
-            <span className="bg-gradient-to-r from-yellow-400 to-blue-400 text-transparent bg-clip-text animate-gradient-reverse inline-block transform hover:scale-105 transition-transform duration-300" style={{textShadow: '0 0 30px rgba(236, 201, 75, 0.5)'}}>
+            <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-transparent bg-clip-text animate-gradient-reverse inline-block transform hover:scale-105 transition-transform duration-300" style={{textShadow: '0 0 30px rgba(255, 165, 0, 0.8), 0 0 60px rgba(255, 165, 0, 0.6)'}}>
               with Personal Guidance
             </span>
           </h1>
