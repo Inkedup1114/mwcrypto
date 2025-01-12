@@ -39,32 +39,161 @@ body::before {
   50% { opacity: 0.6; }
 }
 
-/* Spark animation */
+/* Enhanced Spark animations */
 .spark {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(255, 140, 0, 0.3);
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(255, 140, 0, 0.5),
-              0 0 20px rgba(255, 69, 0, 0.3),
-              0 0 30px rgba(255, 165, 0, 0.1);
-  animation: float 8s infinite ease-in-out;
   opacity: 0;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
-@keyframes float {
+/* Spark sizes */
+.spark-small {
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 140, 0, 0.4);
+  box-shadow: 0 0 8px rgba(255, 140, 0, 0.6),
+              0 0 16px rgba(255, 69, 0, 0.4);
+}
+
+.spark-medium {
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 165, 0, 0.4);
+  box-shadow: 0 0 12px rgba(255, 165, 0, 0.6),
+              0 0 24px rgba(255, 140, 0, 0.4),
+              0 0 36px rgba(255, 69, 0, 0.2);
+}
+
+.spark-large {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6),
+              0 0 30px rgba(255, 165, 0, 0.4),
+              0 0 45px rgba(255, 140, 0, 0.2);
+}
+
+.spark-pulse {
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 140, 0, 0.4);
+  box-shadow: 0 0 12px rgba(255, 140, 0, 0.6),
+              0 0 24px rgba(255, 69, 0, 0.4);
+  animation: sparkPulse 3s infinite ease-in-out;
+}
+
+/* Animation patterns */
+.spark[data-pattern="0"] {
+  animation: floatUp 8s infinite ease-in-out;
+}
+
+.spark[data-pattern="1"] {
+  animation: floatDiagonal 10s infinite ease-in-out;
+}
+
+.spark[data-pattern="2"] {
+  animation: floatZigzag 12s infinite ease-in-out;
+}
+
+@keyframes floatUp {
   0% {
     transform: translateY(100vh) translateX(0);
     opacity: 0;
   }
-  50% {
+  20% {
+    opacity: 0.6;
+  }
+  80% {
     opacity: 0.4;
   }
   100% {
-    transform: translateY(-100px) translateX(100px);
+    transform: translateY(-100px) translateX(0);
     opacity: 0;
+  }
+}
+
+@keyframes floatDiagonal {
+  0% {
+    transform: translate(0, 100vh) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(200px, -100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes floatZigzag {
+  0% {
+    transform: translate(0, 100vh);
+    opacity: 0;
+  }
+  25% {
+    transform: translate(100px, 50vh);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-100px, 0vh);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(50px, -50vh);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(0, -100px);
+    opacity: 0;
+  }
+}
+
+@keyframes sparkPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+}
+
+/* Floating orbs */
+.floating-orb {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.6), rgba(255, 140, 0, 0.2));
+  border-radius: 50%;
+  opacity: 0.3;
+  pointer-events: none;
+  animation: orbFloat 20s infinite ease-in-out;
+  will-change: transform, opacity;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate(50px, -30px) scale(1.2);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(0, -60px) scale(1);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translate(-50px, -30px) scale(1.2);
+    opacity: 0.5;
   }
 }
 
