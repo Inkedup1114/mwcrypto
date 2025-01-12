@@ -43,8 +43,8 @@ export interface Database {
           currency: string
           status: 'pending' | 'completed' | 'failed'
           created_at: string
-          payment_method: string
-          description: string | null
+          stripe_payment_intent_id: string | null
+          stripe_payment_status: string | null
         }
         Insert: {
           id?: string
@@ -53,8 +53,8 @@ export interface Database {
           currency: string
           status?: 'pending' | 'completed' | 'failed'
           created_at?: string
-          payment_method: string
-          description?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_payment_status?: string | null
         }
         Update: {
           id?: string
@@ -63,75 +63,92 @@ export interface Database {
           currency?: string
           status?: 'pending' | 'completed' | 'failed'
           created_at?: string
-          payment_method?: string
-          description?: string | null
-        }
-      }
-      subscriptions: {
-        Row: {
-          id: string
-          user_id: string
-          plan_id: string
-          status: 'active' | 'cancelled' | 'expired'
-          current_period_start: string
-          current_period_end: string
-          created_at: string
-          cancelled_at: string | null
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          plan_id: string
-          status?: 'active' | 'cancelled' | 'expired'
-          current_period_start: string
-          current_period_end: string
-          created_at?: string
-          cancelled_at?: string | null
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          plan_id?: string
-          status?: 'active' | 'cancelled' | 'expired'
-          current_period_start?: string
-          current_period_end?: string
-          created_at?: string
-          cancelled_at?: string | null
+          stripe_payment_intent_id?: string | null
+          stripe_payment_status?: string | null
         }
       }
       bookings: {
         Row: {
           id: string
           user_id: string
-          date: string
-          time: string
-          plan_title: string
-          status: 'pending' | 'confirmed' | 'cancelled'
-          created_at: string
           payment_id: string | null
+          created_at: string
+          status: 'pending' | 'confirmed' | 'cancelled'
           notes: string | null
         }
         Insert: {
           id?: string
           user_id: string
-          date: string
-          time: string
-          plan_title: string
-          status?: 'pending' | 'confirmed' | 'cancelled'
-          created_at?: string
           payment_id?: string | null
+          created_at?: string
+          status?: 'pending' | 'confirmed' | 'cancelled'
           notes?: string | null
         }
         Update: {
           id?: string
           user_id?: string
-          date?: string
-          time?: string
-          plan_title?: string
-          status?: 'pending' | 'confirmed' | 'cancelled'
-          created_at?: string
           payment_id?: string | null
+          created_at?: string
+          status?: 'pending' | 'confirmed' | 'cancelled'
           notes?: string | null
+        }
+      }
+      sessions: {
+        Row: {
+          id: string
+          booking_id: string
+          date: string
+          start_time: string
+          end_time: string
+          status: 'scheduled' | 'completed' | 'cancelled'
+          created_at: string
+          notes: string | null
+        }
+        Insert: {
+          id?: string
+          booking_id: string
+          date: string
+          start_time: string
+          end_time: string
+          status?: 'scheduled' | 'completed' | 'cancelled'
+          created_at?: string
+          notes?: string | null
+        }
+        Update: {
+          id?: string
+          booking_id?: string
+          date?: string
+          start_time?: string
+          end_time?: string
+          status?: 'scheduled' | 'completed' | 'cancelled'
+          created_at?: string
+          notes?: string | null
+        }
+      }
+      available_slots: {
+        Row: {
+          id: string
+          date: string
+          start_time: string
+          end_time: string
+          is_available: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          date: string
+          start_time: string
+          end_time: string
+          is_available?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          date?: string
+          start_time?: string
+          end_time?: string
+          is_available?: boolean
+          created_at?: string
         }
       }
     }

@@ -111,6 +111,29 @@ The application uses Supabase Authentication with the following flow:
 5. Protected routes require authentication
 6. Auth state managed through AuthContext
 
+## Todo List
+
+### Completed ✅
+- Set up Next.js 13 with App Router
+- Implement Supabase authentication
+- Create basic page structure (Home, Learn, Contact)
+- Add Tailwind CSS styling
+- Set up payment integration with Stripe
+- Enhance payment intent route with plan details and metadata
+- Implement error handling for payment processing
+
+### In Progress 🚧
+- Complete the booking calendar implementation
+- Finalize the learning interface
+- Add more payment plans
+
+### Pending 📝
+- Add user profile management
+- Implement course progress tracking
+- Add admin dashboard
+- Set up email notifications
+- Add analytics integration
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

@@ -1,24 +1,18 @@
-'use client'
-
-import React from 'react'
-
 export default function Learn() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-8">Learn</h1>
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Resources</h2>
-          <p className="text-gray-600 mb-4">
-            Access our comprehensive learning materials and resources.
-          </p>
-          <ul className="list-disc list-inside text-gray-600">
-            <li>Documentation</li>
-            <li>Tutorials</li>
-            <li>Best Practices</li>
-            <li>Case Studies</li>
-          </ul>
-        </div>
+    <div className="mt-48 container mx-auto px-4">
+      <h1 className="text-4xl text-yellow-500 text-center mb-8">Learn Crypto</h1>
+      <div className="max-w-4xl mx-auto bg-black/30 p-8 rounded-lg">
+        <h2 className="text-2xl text-yellow-400 mb-4">Resources</h2>
+        <p className="text-gray-300 mb-4">
+          Access our comprehensive learning materials and start your crypto journey today.
+        </p>
+        <ul className="space-y-2 text-gray-200">
+          <li>• Cryptocurrency Fundamentals</li>
+          <li>• Blockchain Technology Deep Dive</li>
+          <li>• Trading Strategies & Best Practices</li>
+          <li>• Security & Risk Management</li>
+        </ul>
       </div>
     </div>
   )

@@ -62,24 +62,6 @@ export const updateUserProfile = async (userId: string, updates: Partial<Databas
   }
 }
 
-// Helper function to get user subscriptions
-export const getUserSubscription = async (userId: string) => {
-  try {
-    const { data, error } = await supabase
-      .from('subscriptions')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('status', 'active')
-      .single()
-    
-    if (error) throw error
-    return data
-  } catch (error) {
-    console.error('Error getting user subscription:', error)
-    return null
-  }
-}
-
 // Helper function to get user payments
 export const getUserPayments = async (userId: string) => {
   try {
@@ -114,19 +96,117 @@ export const createPayment = async (payment: Database['public']['Tables']['payme
   }
 }
 
-// Helper function to create a subscription
-export const createSubscription = async (subscription: Database['public']['Tables']['subscriptions']['Insert']) => {
+// Helper function to get available slots
+export const getAvailableSlots = async (startDate: string, endDate: string) => {
   try {
     const { data, error } = await supabase
-      .from('subscriptions')
-      .insert(subscription)
+      .from('available_slots')
+      .select('*')
+      .gte('date', startDate)
+      .lte('date', endDate)
+      .eq('is_available', true)
+      .order('date', { ascending: true })
+      .order('start_time', { ascending: true })
+    
+    if (error) throw error
+    return data
+  } catch (error) {
+    console.error('Error getting available slots:', error)
+    return null
+  }
+}
+
+// Helper function to create a booking with sessions
+export const createBookingWithSessions = async (
+  booking: Database['public']['Tables']['bookings']['Insert'],
+  sessions: Database['public']['Tables']['sessions']['Insert'][]
+) => {
+  try {
+    const { data: bookingData, error: bookingError } = await supabase
+      .from('bookings')
+      .insert(booking)
+      .select()
+      .single()
+    
+    if (bookingError) throw bookingError
+
+    const sessionsWithBookingId = sessions.map(session => ({
+      ...session,
+      booking_id: bookingData.id
+    }))
+
+    const { data: sessionsData, error: sessionsError } = await supabase
+      .from('sessions')
+      .insert(sessionsWithBookingId)
+      .select()
+
+    if (sessionsError) throw sessionsError
+
+    return { booking: bookingData, sessions: sessionsData }
+  } catch (error) {
+    console.error('Error creating booking with sessions:', error)
+    return null
+  }
+}
+
+// Helper function to get user bookings with sessions
+export const getUserBookingsWithSessions = async (userId: string) => {
+  try {
+    const { data: bookings, error: bookingsError } = await supabase
+      .from('bookings')
+      .select(`
+        *,
+        sessions:sessions(*)
+      `)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+    
+    if (bookingsError) throw bookingsError
+    return bookings
+  } catch (error) {
+    console.error('Error getting user bookings with sessions:', error)
+    return null
+  }
+}
+
+// Helper function to update session status
+export const updateSessionStatus = async (
+  sessionId: string,
+  status: Database['public']['Tables']['sessions']['Row']['status']
+) => {
+  try {
+    const { data, error } = await supabase
+      .from('sessions')
+      .update({ status })
+      .eq('id', sessionId)
       .select()
       .single()
     
     if (error) throw error
     return data
   } catch (error) {
-    console.error('Error creating subscription:', error)
+    console.error('Error updating session status:', error)
+    return null
+  }
+}
+
+// Helper function to update booking status
+export const updateBookingStatus = async (
+  bookingId: string,
+  status: Database['public']['Tables']['bookings']['Row']['status']
+) => {
+  try {
+    const { data, error } = await supabase
+      .from('bookings')
+      .update({ status })
+      .eq('id', bookingId)
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data
+  } catch (error) {
+    console.error('Error updating booking status:', error)
     return null
   }
 }

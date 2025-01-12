@@ -8,19 +8,19 @@ export default function Home() {
         {/* Title Section */}
         <div className="text-center mb-16 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-yellow-500/20 blur-3xl -z-10 transform rotate-3"></div>
-          <h1 className="text-6xl md:text-7xl font-extrabold mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-blue-400 to-yellow-400 text-transparent bg-clip-text animate-gradient">
+          <h1 className="text-6xl md:text-7xl font-extrabold mb-8 leading-tight relative z-10">
+            <span className="bg-gradient-to-r from-blue-400 to-yellow-400 text-transparent bg-clip-text animate-gradient inline-block transform hover:scale-105 transition-transform duration-300" style={{textShadow: '0 0 30px rgba(66, 153, 225, 0.5)'}}>
               Master Cryptocurrency
             </span>
             <br />
-            <span className="bg-gradient-to-r from-yellow-400 to-blue-400 text-transparent bg-clip-text animate-gradient-reverse">
+            <span className="bg-gradient-to-r from-yellow-400 to-blue-400 text-transparent bg-clip-text animate-gradient-reverse inline-block transform hover:scale-105 transition-transform duration-300" style={{textShadow: '0 0 30px rgba(236, 201, 75, 0.5)'}}>
               with Personal Guidance
             </span>
           </h1>
-          <p className="text-2xl md:text-3xl text-gray-200 mb-12 leading-relaxed max-w-3xl mx-auto">
-            <span className="inline-block transform hover:scale-105 transition-transform duration-300">
+          <p className="text-2xl md:text-3xl text-gray-200 mb-12 leading-relaxed max-w-3xl mx-auto relative z-10">
+            <span className="inline-block transform hover:scale-105 transition-transform duration-300" style={{textShadow: '0 0 15px rgba(255, 255, 255, 0.3)'}}>
               One-on-one sessions to help you
-              <span className="text-yellow-400"> unlock the potential </span>
+              <span className="text-yellow-400" style={{textShadow: '0 0 20px rgba(236, 201, 75, 0.5)'}}> unlock the potential </span>
               of the crypto world
             </span>
           </p>

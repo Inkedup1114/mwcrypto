@@ -1,36 +1,40 @@
 'use client'
 
-import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-// TODO: Implement mobile responsive menu with hamburger icon
-// FIXME: Active link highlighting doesn't work properly on dynamic routes
-// NOTE: Navigation structure follows atomic design principles
 export default function Navigation() {
   const pathname = usePathname()
 
-  // HACK: Using inline styles for transitions - should be moved to Tailwind config
   const isActive = (path: string) => {
-    return pathname === path ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500'
+    return pathname === path ? 'text-yellow-300' : 'text-yellow-500'
   }
 
+  const navClass = "bg-black/50 backdrop-blur-sm border-t border-b border-yellow-500/20 relative z-50"
+  const linkClass = "transition-colors duration-200 tracking-widest"
+
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className={navClass}>
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold text-blue-500">
-            MSC
-          </Link>
-          <div className="flex space-x-8">
-            <Link href="/" className={`${isActive('/')} transition-colors duration-200`}>
-              Home
+        <div className="flex justify-center items-center h-16">
+          <div className="flex space-x-12">
+            <Link 
+              href="/" 
+              className={`${isActive('/')} ${linkClass} hover:text-yellow-400`}
+            >
+              HOME
             </Link>
-            <Link href="/learn" className={`${isActive('/learn')} transition-colors duration-200`}>
-              Learn
+            <Link 
+              href="/learn" 
+              className={`${isActive('/learn')} ${linkClass} hover:text-yellow-400`}
+            >
+              LEARN
             </Link>
-            <Link href="/contact" className={`${isActive('/contact')} transition-colors duration-200`}>
-              Contact
+            <Link 
+              href="/contact" 
+              className={`${isActive('/contact')} ${linkClass} hover:text-yellow-400`}
+            >
+              CONTACT
             </Link>
           </div>
         </div>

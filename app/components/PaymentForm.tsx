@@ -3,18 +3,20 @@
 import { useState } from 'react'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js'
+import { useRouter } from 'next/navigation'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 interface PaymentFormProps {
   clientSecret: string;
-  onSuccess: () => void;
+  onSuccess?: (paymentIntentId: string) => void;
   onError: (error: string) => void;
 }
 
 function CheckoutForm({ onSuccess, onError }: Omit<PaymentFormProps, 'clientSecret'>) {
   const stripe = useStripe()
   const elements = useElements()
+  const router = useRouter()
   const [processing, setProcessing] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,7 +37,13 @@ function CheckoutForm({ onSuccess, onError }: Omit<PaymentFormProps, 'clientSecr
       if (error) {
         onError(error.message || 'Payment failed')
       } else if (paymentIntent.status === 'succeeded') {
-        onSuccess()
+        // Call onSuccess callback if provided
+        if (onSuccess) {
+          onSuccess(paymentIntent.id)
+        }
+        
+        // Redirect to payment confirmation page
+        router.push(`/payment-confirmation?payment=${paymentIntent.id}`)
       }
     } catch (error) {
       onError(error instanceof Error ? error.message : 'An unexpected error occurred')
