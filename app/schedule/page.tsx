@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import BookingCalendar from '../components/BookingCalendar'
 import type { Database } from '../lib/supabase/types'
+import { useAuth } from '../contexts/AuthContext'
 
 interface BookingDetails {
   id: string
@@ -21,6 +22,7 @@ export default function SchedulePage() {
   const [error, setError] = useState<string | null>(null)
   const [booking, setBooking] = useState<BookingDetails | null>(null)
   const supabase = createClientComponentClient<Database>()
+  const { user } = useAuth()
 
   useEffect(() => {
     const bookingId = searchParams.get('booking')
@@ -32,9 +34,9 @@ export default function SchedulePage() {
 
     async function fetchBookingDetails() {
       try {
-        const { data: { user } } = await supabase.auth.getUser()
         if (!user) {
           setError('Please sign in to schedule your sessions')
+          setLoading(false)
           return
         }
 
@@ -68,7 +70,7 @@ export default function SchedulePage() {
     }
 
     fetchBookingDetails()
-  }, [searchParams, supabase])
+  }, [searchParams, supabase, user])
 
   const handleSessionScheduled = async (sessionDetails: {
     date: string

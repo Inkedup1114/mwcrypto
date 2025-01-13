@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '../lib/supabase/types';
+import { useAuth } from '../contexts/AuthContext';
 import "react-datepicker/dist/react-datepicker.css";
 
 // Helper function to convert time from local to UTC
@@ -58,15 +59,50 @@ export default function BookingCalendar({ bookingId, onSessionScheduled }: Booki
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [loadingTimes, setLoadingTimes] = useState(false);
   const [error, setError] = useState<string>('');
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [scheduledSessions, setScheduledSessions] = useState<Array<{date: string, time: string}>>([]);
   const supabase = createClientComponentClient<Database>();
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const { user } = useAuth();
+
+  // Fetch scheduled sessions for this booking
+  useEffect(() => {
+    async function fetchScheduledSessions() {
+      try {
+        const { data: sessions, error: sessionsError } = await supabase
+          .from('sessions')
+          .select('date, start_time')
+          .eq('booking_id', bookingId)
+          .eq('status', 'scheduled');
+
+        if (sessionsError) throw sessionsError;
+
+        if (sessions) {
+          setScheduledSessions(sessions.map(session => ({
+            date: new Date(session.date).toLocaleDateString(),
+            time: new Date(`1970-01-01T${session.start_time}Z`)
+              .toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true,
+                timeZone: 'UTC'
+              })
+          })));
+        }
+      } catch (error) {
+        console.error('Error fetching scheduled sessions:', error);
+      }
+    }
+
+    fetchScheduledSessions();
+  }, [bookingId, supabase]);
 
   useEffect(() => {
     const fetchAvailableTimes = async (date: Date) => {
       try {
-        setLoading(true);
+        setLoadingTimes(true);
         setError('');
         const response = await fetch('/api/check-availability', {
           method: 'POST',
@@ -107,7 +143,6 @@ export default function BookingCalendar({ bookingId, onSessionScheduled }: Booki
       setLoading(true);
       setError('');
 
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('User not found');
 
       // Create session
@@ -153,14 +188,31 @@ export default function BookingCalendar({ bookingId, onSessionScheduled }: Booki
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-xl font-semibold mb-4 text-gray-900">
+    <div className="bg-white rounded-2xl shadow-lg p-4 md:p-6 w-full max-w-[90%] md:max-w-md mx-auto">
+      <h3 className="text-lg md:text-xl font-semibold mb-4 text-gray-900">
         Schedule Your Session
       </h3>
+
+      <div className="mb-4 text-sm text-gray-600">
+        Your timezone: <span className="font-medium">{timezone}</span>
+      </div>
       
       {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">
           {error}
+        </div>
+      )}
+
+      {scheduledSessions.length > 0 && (
+        <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+          <h4 className="font-medium text-blue-900 mb-2">Your Scheduled Sessions</h4>
+          <ul className="space-y-2">
+            {scheduledSessions.map(({date, time}, index) => (
+              <li key={index} className="text-sm text-blue-800">
+                {date} at {time}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       
@@ -168,15 +220,18 @@ export default function BookingCalendar({ bookingId, onSessionScheduled }: Booki
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Select Date
         </label>
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleDateSelect}
-          minDate={new Date()}
-          className="w-full px-3 py-2 border rounded-md bg-white text-gray-900"
-          disabled={loading}
-          dateFormat="MMMM d, yyyy"
-          placeholderText="Click to select a date"
-        />
+        <div className="relative">
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateSelect}
+            minDate={new Date()}
+            className="w-full px-4 py-3 border rounded-lg bg-white text-gray-900 text-base focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+            disabled={loading}
+            dateFormat="MMMM d, yyyy"
+            placeholderText="Tap to select a date"
+            calendarClassName="!text-base" // Make calendar text larger for mobile
+          />
+        </div>
       </div>
 
       {selectedDate && (
@@ -184,27 +239,38 @@ export default function BookingCalendar({ bookingId, onSessionScheduled }: Booki
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Select Time
           </label>
-          <div className="grid grid-cols-3 gap-2">
-            {availableTimes.map((time: string) => (
-              <button
-                key={time}
-                onClick={() => handleTimeSelect(time)}
-                disabled={loading}
-                className={`p-2 text-sm rounded-md ${
-                  selectedTime === time
-                    ? 'bg-orange-500 text-white'
-                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                {time}
-              </button>
-            ))}
-            {availableTimes.length === 0 && !loading && (
-              <p className="col-span-3 text-center text-gray-500 py-4">
-                No available times for this date
-              </p>
-            )}
-          </div>
+          {loadingTimes ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-yellow-400"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {availableTimes.map((time: string) => (
+                <button
+                  key={time}
+                  onClick={() => handleTimeSelect(time)}
+                  disabled={loading}
+                  className={`p-3 md:p-2 text-base md:text-sm rounded-lg transition-colors ${
+                    selectedTime === time
+                      ? 'bg-yellow-400 text-gray-900 font-medium'
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {time}
+                </button>
+              ))}
+              {availableTimes.length === 0 && (
+                <div className="col-span-2 sm:col-span-3 p-6 text-center bg-gray-50 rounded-lg">
+                  <p className="text-gray-500 text-sm mb-1">
+                    No available times for this date
+                  </p>
+                  <p className="text-gray-400 text-xs">
+                    Try selecting a different date
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>

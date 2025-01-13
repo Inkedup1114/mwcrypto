@@ -1,4 +1,5 @@
 {
+  "npm.packageManager": "npm",
   "todo-tree.general.tags": [
     "TODO",
     "FIXME",

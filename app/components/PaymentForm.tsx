@@ -53,12 +53,14 @@ function CheckoutForm({ onSuccess, onError }: Omit<PaymentFormProps, 'clientSecr
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
-      <PaymentElement className="mb-6" />
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="mb-6 px-2 md:px-0">
+        <PaymentElement />
+      </div>
       <button
         type="submit"
         disabled={!stripe || processing}
-        className={`w-full bg-yellow-400 text-gray-900 py-2 px-4 rounded-md font-semibold hover:bg-yellow-500 transition-colors ${
+        className={`w-full bg-yellow-400 text-gray-900 py-3 md:py-2 px-4 rounded-full font-semibold text-sm md:text-base hover:bg-yellow-500 transition-colors ${
           (!stripe || processing) ? 'opacity-50 cursor-not-allowed' : ''
         }`}
       >
@@ -78,11 +80,17 @@ export default function PaymentForm({ clientSecret, onSuccess, onError }: Paymen
         colorBackground: '#ffffff',
         colorText: '#1f2937',
       },
+      rules: {
+        '.Input': {
+          padding: '12px',
+          fontSize: '16px', // Better for mobile to prevent zoom
+        },
+      },
     },
   }
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow">
+    <div className="w-full max-w-[90%] md:max-w-md mx-auto bg-white p-4 md:p-6 rounded-2xl shadow-lg">
       <Elements stripe={stripePromise} options={options}>
         <CheckoutForm onSuccess={onSuccess} onError={onError} />
       </Elements>
